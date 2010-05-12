@@ -1,8 +1,10 @@
 module FLAML
   class Renderer
+    require 'flaml/div'
+
     def self.render(haml)
-      if haml =~ /%(\w+)/
-        return "<#{$1}></#{$1}>"
+      if haml =~ /%div/
+        Div.new.to_html
       end
     end
   end
