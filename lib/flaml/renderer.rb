@@ -1,28 +1,14 @@
 module FLAML
-  class Renderer
+  module Renderer
     require 'flaml/div'
     require 'flaml/line'
 
-    def self.render(page)
-      self.new(page).render
-    end
-
-    def initialize(page)
-      @page = page
+    def initialize
       @fragment_stack = []
       @render_output = []
     end
 
-    def render
-      @page.each do |line|
-        render_line(line)
-      end
-
-      flush_stack
-
-      return flat_output + "\n"
-    end
-
+    private
     def flat_output
       @render_output.join("\n")
     end
@@ -48,7 +34,6 @@ module FLAML
       end
     end
 
-    private
     def last_fragment
       @fragment_stack.last
     end
@@ -57,6 +42,29 @@ module FLAML
       while fragment = @fragment_stack.pop do
         @render_output << fragment.to_html
       end
+    end
+  end
+
+  class PageRenderer
+    include FLAML::Renderer
+
+    def self.render(page)
+      self.new(page).render
+    end
+
+    def initialize(page)
+      @page = page
+      super()
+    end
+
+    def render
+      @page.each do |line|
+        render_line(line)
+      end
+
+      flush_stack
+
+      return flat_output + "\n"
     end
   end
 end

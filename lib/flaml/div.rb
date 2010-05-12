@@ -1,9 +1,12 @@
+require 'lib/flaml/renderer'
+
 module FLAML
-  class Div < FLAML::Renderer
+  class Div
+    include FLAML::Renderer
+
     def initialize(line)
       @indentation = line.indentation
-      @fragment_stack = []
-      @render_output = []
+      super()
     end
 
     attr_reader :indentation
