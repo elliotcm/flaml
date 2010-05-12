@@ -1,1 +1,1 @@
-require 'flaml/renderer'
+require 'flaml/page'
