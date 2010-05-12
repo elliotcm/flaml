@@ -3,8 +3,10 @@ module FLAML
     require 'flaml/div'
 
     def self.render(haml)
-      if haml =~ /%div/
-        Div.new.to_html
+      haml.each do |line|
+        if line =~ /%div/
+          return Div.new.to_html
+        end
       end
     end
   end
