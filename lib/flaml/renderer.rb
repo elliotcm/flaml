@@ -14,7 +14,7 @@ module FLAML
     end
 
     def render_line(line)
-      line = FLAML::Line.new(line) unless line.is_a? FLAML::Line
+      line = Line.new(line) unless line.is_a? Line
 
       if @fragment_stack.empty?
         @fragment_stack << parse_for_new_fragment(line)
