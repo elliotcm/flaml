@@ -5,8 +5,8 @@ module FLAML
     include FLAML::Renderer
 
     def initialize(line)
-      @indentation = line.indentation
       super()
+      @indentation = line.indentation
     end
 
     attr_reader :indentation
@@ -14,10 +14,12 @@ module FLAML
     def to_html
       flush_stack
 
-      return "<div></div>" if @render_output.empty?
-
-      @render_output.unshift "<div>"
-      @render_output.push "</div>"
+      if @render_output.empty?
+        @render_output.push "<div></div>"
+      else
+        @render_output.unshift "<div>"
+        @render_output.push "</div>"
+      end
 
       return flat_output
     end
@@ -27,6 +29,7 @@ module FLAML
         render_line(line)
         return true
       else
+        flush_stack
         return false
       end
     end

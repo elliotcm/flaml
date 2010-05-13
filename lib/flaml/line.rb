@@ -18,7 +18,7 @@ module FLAML
     attr_reader :indentation
 
     def to_html
-      ' ' * @indentation + @body
+      '  ' + @body
     end
 
     def element?

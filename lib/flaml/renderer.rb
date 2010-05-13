@@ -4,13 +4,16 @@ module FLAML
     require 'flaml/line'
 
     def initialize
+      @indentation = 0
       @fragment_stack = []
       @render_output = []
     end
 
     private
     def flat_output
-      @render_output.join("\n")
+      @render_output.map do |line|
+         " " * @indentation + line
+      end.join("\n")
     end
 
     def render_line(line)
