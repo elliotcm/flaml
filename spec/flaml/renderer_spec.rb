@@ -14,10 +14,22 @@ describe FLAML::Page do
   end
 
   it "renders content nested in block elements" do
-    Page.render(File.open(FIXTURES + '/div_with_nested_content.haml')).should ==
-%{<div>
-  Nested content
-</div>
-}
+    Page.render(File.open(FIXTURES + '/div_with_nested_content.haml')).
+      should render_as(%{
+        <div>
+          Nested content
+        </div>
+      })
+  end
+
+  it "renders content nested deeply in block elements" do
+    Page.render(File.open(FIXTURES + '/div_with_deeply_nested_content.haml')).
+      should render_as(%{
+        <div>
+          <div>
+            Nested content
+          </div>
+        </div>
+      })
   end
 end
