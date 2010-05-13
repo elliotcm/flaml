@@ -10,12 +10,6 @@ module FLAML
     end
 
     private
-    def flat_output
-      @render_output.map do |line|
-         " " * @indentation + line
-      end.join("\n")
-    end
-
     def render_line(line)
       line = Line.new(line) unless line.is_a? Line
 

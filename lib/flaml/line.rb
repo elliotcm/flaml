@@ -9,16 +9,17 @@ module FLAML
 
       if @body == ''
         @empty = true
-      elsif @body =~ /%(\w+)/
+      elsif @body =~ /%(\w+)(?:\s+(.+))?$/
         @tag = $1
+        @content = $2 || ''
         @element = true
       end
     end
 
-    attr_reader :indentation
+    attr_reader :indentation, :content, :tag
 
     def to_html
-      '  ' + @body
+      @body
     end
 
     def element?
@@ -31,6 +32,10 @@ module FLAML
 
     def empty?
       @empty
+    end
+
+    def single_line?
+      element? and @content != ''
     end
   end
 end

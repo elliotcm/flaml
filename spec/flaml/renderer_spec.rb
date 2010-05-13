@@ -12,6 +12,11 @@ describe FLAML::Page do
     file.stub(:each).and_yield("%div\n")
     Page.render(file).should == "<div></div>\n"
   end
+  
+  it "renders single line elements without nesting the output" do
+    Page.render("%div Single line content").
+      should == "<div>Single line content</div>\n"
+  end
 
   it "renders content nested in block elements" do
     Page.render(File.open(FIXTURES + '/div_with_nested_content.haml')).

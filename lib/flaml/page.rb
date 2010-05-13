@@ -19,8 +19,11 @@ module FLAML
       end
 
       flush_stack
+      return flat_output
+    end
 
-      return flat_output + "\n"
+    def flat_output
+      @render_output.join("\n") + "\n"
     end
   end
 end
