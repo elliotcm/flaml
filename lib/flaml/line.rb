@@ -3,9 +3,8 @@ module FLAML
     def initialize(haml_line)
       @element = @empty = false
 
-      haml_line =~ /(\s*)(.*)/
-      @indentation = ($1.nil? ? 0 : $1.length)
-      @body = $2 || ''
+      haml_line =~ /\s*(.*)/
+      @body = $1 || ''
 
       if @body == ''
         @empty = true
@@ -16,7 +15,7 @@ module FLAML
       end
     end
 
-    attr_reader :indentation, :content, :tag
+    attr_reader:content, :tag
 
     def to_html
       @body
@@ -32,10 +31,6 @@ module FLAML
 
     def empty?
       @empty
-    end
-
-    def single_line?
-      element? and @content != ''
     end
   end
 end

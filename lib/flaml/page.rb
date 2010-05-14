@@ -1,8 +1,9 @@
+require 'lib/flaml/parser'
 require 'lib/flaml/renderer'
 
 module FLAML
   class Page
-    include FLAML::Renderer
+    include Parser
 
     def self.render(page)
       self.new(page).render
@@ -15,15 +16,14 @@ module FLAML
 
     def render
       @page.each do |line|
-        render_line(line)
+        parse_line(line)
       end
 
-      flush_stack
-      return flat_output
+      return Renderer.render(self)
     end
 
     def flat_output
-      @render_output.join("\n") + "\n"
+      @render_stack.join("\n") + "\n"
     end
   end
 end

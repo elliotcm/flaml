@@ -1,59 +1,59 @@
 module FLAML
-  class Element
-    include Renderer
-
-    def initialize(line)
-      super()
-      @line = line
-      @indentation = line.indentation
+  class Element < Fragment
+    def initialize(line, indentation)
+      super(line, indentation)
       @tag = line.tag
     end
 
     def single_line?
-      @line.single_line?
+      @content != '' or @fragments.empty?
     end
 
-    attr_reader :indentation
-
-    def to_html
-      return "<#{@tag}>#{@line.content}</#{@tag}>" if self.single_line?
-      flush_stack
-      return "<#{@tag}></#{@tag}>" if @render_output.empty?
-      indent_tag_content
-      wrap_tag_content
-      multiline_output
+    def element?
+      true
     end
 
+    attr_reader :tag, :content
+    #
+    #
+    # def to_html
+    #   return "<#{@tag}>#{@line.content}</#{@tag}>" if self.single_line?
+    #   flush_stack
+    #   return "<#{@tag}></#{@tag}>" if @render_stack.empty?
+    #   indent_tag_content
+    #   wrap_tag_content
+    #   multiline_output
+    # end
+    #
     def takes(line)
-      if self.single_line?
-        @render_output << @line.content
-        return false
-      end
+      return false if self.single_line?
 
-      if line.empty? or line.indentation > self.indentation
-        render_line(line)
+      return true if line.empty?
+
+      if line.indentation > self.indentation
+        parse_line(line)
         return true
       end
 
-      flush_stack
+      # flush_stack
       return false
     end
-
-    private
-    def indent_tag_content
-      @render_output.map! do |line|
-         "  " + line
-      end
-      puts @render_output.inspect
-    end
-
-    def wrap_tag_content
-      @render_output.unshift "<#{@tag}>"
-      @render_output.push "</#{@tag}>"
-    end
-
-    def multiline_output
-      @render_output.join("\n")
-    end
+    #
+    # private
+    # def indent_tag_content
+    #   @render_stack.map! do |line|
+    #      "  " + line
+    #   end
+    #   puts @render_stack.inspect
+    # end
+    #
+    # def wrap_tag_content
+    #   @render_stack.unshift "<#{@tag}>"
+    #   @render_stack.push "</#{@tag}>"
+    # end
+    #
+    # def multiline_output
+    #   @render_stack.join("\n")
+    # end
   end
 end
